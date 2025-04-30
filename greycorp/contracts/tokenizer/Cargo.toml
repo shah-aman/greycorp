@@ -1,0 +1,34 @@
+[package]
+name = "greycorp-tokenizer-contract"
+description = "Main tokenization contract for greycorp"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = { workspace = true }
+# Add path dependency to the token contract within the same workspace
+greycorp-token-contract = { workspace = true, path = "../token" }
+
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+
+# Add release profile from original for optimization if desired
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true 
